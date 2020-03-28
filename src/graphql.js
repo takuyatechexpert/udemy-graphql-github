@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const SEARCH_REPOSITORES = gql`
+export const SEARCH_REPOSITORIES = gql`
 query searchRepositories($first: Int, $after: String, $last: Int, $before: String, $query: String!) {
   search(first: $first, after: $after, last:$last, before: $before, query: $query, type: REPOSITORY) {
     repositoryCount
