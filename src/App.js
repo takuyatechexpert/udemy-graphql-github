@@ -34,12 +34,23 @@ class App extends Component {
     event.preventDefault()
   }
 
+  // nextボタンを押した時の動作
   goNext(search) {
     this.setState({
       first: PER_PAGE,
       after: search.pageInfo.endCursor,
       last: null,
       before: null
+    })
+  }
+
+  // previousボタンを押した時の動作
+  goPrevious(search) {
+    this.setState({
+      first: null,
+      after: null,
+      last: PER_PAGE,
+      before: search.pageInfo.startCursor
     })
   }
 
@@ -81,6 +92,14 @@ class App extends Component {
                       })
                     }
                   </ul>
+                  {
+                    search.pageInfo.hasPreviousPage === true ?
+                      <button onClick={this.goPrevious.bind(this, search)}>
+                        Previous
+                      </button>
+                    :
+                      null
+                  }
 
                   {
                     search.pageInfo.hasNextPage === true ?
@@ -89,7 +108,7 @@ class App extends Component {
                       </button>
                       :
                       null
-                    }
+                  }
                 </React.Fragment>
               )
             }
