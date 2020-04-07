@@ -81,7 +81,7 @@ const DEFAULT_STATE =
   "before": null,
   "first": PER_PAGE,
   "last": null,
-  "query": "フロントエンドエンジニア"
+  "query": ""
 }
 
 class App extends Component {
@@ -89,19 +89,25 @@ class App extends Component {
     super(props)
 
     this.state = DEFAULT_STATE
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
 
-  handleChange(event) {
-    this.setState({
-      ...DEFAULT_STATE,
-      query: event.target.value
-    })
+    this.myRef = React.createRef()
+    // constructorで初期化の際にrefを生成する
+    // refとは
+    // reactの要素
+    // ユニークな参照用のオブジェクトをrefと言う属性でDOM割り当てて
+    // そのDOM要素にアクセスする
+
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleSubmit(event) {
     event.preventDefault()
+
+    this.setState({
+      query: this.myRef.current.value
+      // submitが押された時にtext fromのvalueを取得してqueryを更新している
+      // setStateで更新
+    })
   }
 
   // nextボタンを押した時の動作
@@ -129,7 +135,8 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <form onSubmit={this.handleSubmit}>
-          <input value={query} onChange={this.handleChange} />
+          <input ref={this.myRef} />
+          <input type="submit" value="Submit" />
         </form>
         <Query
           query={SEARCH_REPOSITORIES}
